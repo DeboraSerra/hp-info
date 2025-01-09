@@ -24,3 +24,78 @@ export const Colors = {
     tabIconSelected: tintColorDark,
   },
 };
+
+export const houseColors = {
+  hufflepuff: {
+    light: {
+      text: '#11181C',
+      background: '#fff',
+      tint: '#FFD43B',
+      icon: '#687076',
+      tabIconDefault: '#687076',
+      tabIconSelected: '#FFD43B',
+    },
+    dark: {
+      text: '#ECEDEE',
+      background: '#151718',
+      tint: '#FFD43B',
+      icon: '#9BA1A6',
+      tabIconDefault: '#9BA1A6',
+      tabIconSelected: '#FFD43B',
+    }
+  },
+  gryffindor: {
+    light: {
+      text: '#11181C',
+      background: '#fff',
+      tint: '#740001',
+      icon: '#687076',
+      tabIconDefault: '#687076',
+      tabIconSelected: '#740001',
+    },
+    dark: {
+      text: '#ECEDEE',
+      background: '#151718',
+      tint: '#740001',
+      icon: '#9BA1A6',
+      tabIconDefault: '#9BA1A6',
+      tabIconSelected: '#740001',
+    }
+  },
+  ravenclaw: {
+    light: {
+      text: '#11181C',
+      background: '#fff',
+      tint: '#222F5B',
+      icon: '#687076',
+      tabIconDefault: '#687076',
+      tabIconSelected: '#222F5B',
+    },
+    dark: {
+      text: '#ECEDEE',
+      background: '#151718',
+      tint: '#222F5B',
+      icon: '#9BA1A6',
+      tabIconDefault: '#9BA1A6',
+      tabIconSelected: '#222F5B',
+    }
+  },
+  slytherin: {
+    light: {
+      text: '#11181C',
+      background: '#fff',
+      tint: '#1A472A',
+      icon: '#687076',
+      tabIconDefault: '#687076',
+      tabIconSelected: '#1A472A',
+    },
+    dark: {
+      text: '#ECEDEE',
+      background: '#151718',
+      tint: '#1A472A',
+      icon: '#9BA1A6',
+      tabIconDefault: '#9BA1A6',
+      tabIconSelected: '#1A472A',
+    }
+  }
+}

@@ -1,3 +1,30 @@
+export type HouseType = "gryffindor" | "hufflepuff" | "ravenclaw" | "slytherin";
+
+export interface IHouseTheme {
+  light: {
+    text: string;
+    background: string;
+    tint: string;
+    icon: string;
+    tabIconDefault: string;
+    tabIconSelected: string;
+  };
+  dark: {
+    text: string;
+    background: string;
+    tint: string;
+    icon: string;
+    tabIconDefault: string;
+    tabIconSelected: string;
+  };
+}
+
+export interface IThemeProvider {
+  theme: "light" | "dark";
+  house: HouseType | null | undefined;
+  setSelectedHouse: (house: HouseType) => void;
+}
+
 export interface IHouse {
   id: string;
   name: string;

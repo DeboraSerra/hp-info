@@ -1,14 +1,28 @@
-import { FlatList, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { useHouse } from "@/hooks/useHouse";
 import api from "@/utils/api";
+import { HouseType, IHouse } from "@/utils/interaces";
 import React, { useEffect, useState } from "react";
-import { IHouse } from "@/utils/interaces";
+
+const mapLogo = {
+  Gryffindor: require("@/assets/gryffindor.png"),
+  Hufflepuff: require("@/assets/hufflepuff.png"),
+  Ravenclaw: require("@/assets/ravenclaw.png"),
+  Slytherin: require("@/assets/slytherin.png"),
+};
 
 export default function HomeScreen() {
+  const { setSelectedHouse, house } = useHouse();
   const [houses, setHouses] = useState([] as IHouse[]);
-  const [selectedHouse, setSelectedHouse] = useState(0);
   const [activeHouse, setActiveHouse] = useState({} as IHouse);
 
   useEffect(() => {
@@ -18,8 +32,8 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
-    setActiveHouse(houses[selectedHouse]);
-  }, [selectedHouse]);
+    setActiveHouse(houses.find(({ name }) => name.toLowerCase() === house)!);
+  }, [house]);
 
   return (
     <ScrollView>
@@ -32,25 +46,14 @@ export default function HomeScreen() {
           Slytherin. Each house has its own unique characteristics and values.
           Which house do you belong to?
         </ThemedText>
-        <ThemedView style={styles.stepContainer}>
-          {houses.map((house, index) => (
-            <TouchableOpacity
-              key={house.id}
-              style={{
-                backgroundColor: selectedHouse === index ? "yellow" : "white",
-                padding: 8,
-                borderRadius: 8,
-              }}
-              onPress={() => setSelectedHouse(index)}
-            >
-              <ThemedText>{house.name}</ThemedText>
-            </TouchableOpacity>
-          ))}
-        </ThemedView>
         <ThemedView>
           <ThemedText style={{ fontSize: 20, fontWeight: "bold" }}>
             {activeHouse.name}
-            </ThemedText>
+          </ThemedText>
+          <Image
+            source={mapLogo[activeHouse.name as keyof typeof mapLogo]}
+            style={styles.reactLogo}
+          />
           <ThemedText>
             <ThemedText style={{ fontWeight: "bold" }}>Founder:</ThemedText>{" "}
             {activeHouse.founder}
@@ -112,6 +115,22 @@ export default function HomeScreen() {
               </ThemedText>
             )}
           />
+        </ThemedView>
+        <ThemedView style={styles.stepContainer}>
+          {houses.map((house, index) => (
+            <TouchableOpacity
+              key={house.id}
+              style={{
+                padding: 8,
+                borderRadius: 8,
+              }}
+              onPress={() =>
+                setSelectedHouse(house.name.toLowerCase() as HouseType)
+              }
+            >
+              <ThemedText>{house.name}</ThemedText>
+            </TouchableOpacity>
+          ))}
         </ThemedView>
       </ThemedView>
     </ScrollView>

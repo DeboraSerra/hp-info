@@ -1,57 +1,61 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from "expo-router";
+import React from "react";
+import { Platform } from "react-native";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { HapticTab } from "@/components/HapticTab";
+import Hogwarts from "@/components/ui/HogwartsIcon";
+import PotionIcon from "@/components/ui/PotionIcon";
+import TabBarBackground from "@/components/ui/TabBarBackground";
+import WandIcon from "@/components/ui/WandIcon";
+import WizardIcon from "@/components/ui/WizardIcon";
+import { Colors } from "@/constants/Colors";
+import { useHouse } from "@/hooks/useHouse";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { theme } = useHouse();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[theme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
+            position: "absolute",
           },
           default: {},
         }),
-      }}>
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name='index'
         options={{
-          title: 'Houses',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Houses",
+          tabBarIcon: ({ color }) => <Hogwarts size={28} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="wizards"
+        name='wizards'
         options={{
-          title: 'Wizards',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Wizards",
+          tabBarIcon: ({ color }) => <WizardIcon size={28} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="spells"
+        name='spells'
         options={{
-          title: 'Spells',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="gearshape.fill" color={color} />,
+          title: "Spells",
+          tabBarIcon: ({ color }) => <WandIcon size={28} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="elixirs"
+        name='elixirs'
         options={{
-          title: 'Elixirs',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="gearshape.fill" color={color} />,
+          title: "Elixirs",
+          tabBarIcon: ({ color }) => <PotionIcon size={28} color={color} />,
         }}
       />
     </Tabs>
