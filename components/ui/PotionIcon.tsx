@@ -2,7 +2,13 @@ import Svg, { G, Path } from "react-native-svg";
 
 export default function PotionIcon({ color = "#000", size = 28 }) {
   return (
-    <Svg fill={color} height='800px' width='800px' viewBox='0 0 512 512'>
+    <Svg
+      fill={color}
+      height={size}
+      width={size}
+      viewBox='0 0 512 512'
+      id='potion-icon'
+    >
       <G>
         <G>
           <Path

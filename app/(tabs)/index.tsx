@@ -11,29 +11,52 @@ import { ThemedView } from "@/components/ThemedView";
 import { useHouse } from "@/hooks/useHouse";
 import api from "@/utils/api";
 import { HouseType, IHouse } from "@/utils/interaces";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-
-const mapLogo = {
-  Gryffindor: require("@/assets/gryffindor.png"),
-  Hufflepuff: require("@/assets/hufflepuff.png"),
-  Ravenclaw: require("@/assets/ravenclaw.png"),
-  Slytherin: require("@/assets/slytherin.png"),
-};
+import mapHouseLogo from "@/utils/images";
 
 export default function HomeScreen() {
-  const { setSelectedHouse, house } = useHouse();
+  const { setSelectedHouse, house, colors, isLoading, setIsLoading } =
+    useHouse();
   const [houses, setHouses] = useState([] as IHouse[]);
-  const [activeHouse, setActiveHouse] = useState({} as IHouse);
+  const [activeHouse, setActiveHouse] = useState(
+    undefined as IHouse | undefined
+  );
+
+  const getHouses = async () => {
+    const { data } = await api.get("/Houses");
+    setHouses(data);
+    const house = await AsyncStorage.getItem("house");
+    if (!house) {
+      setActiveHouse(data[0]);
+      setSelectedHouse(data[0].name.toLowerCase() as HouseType);
+    } else {
+      setActiveHouse(data.find((h: IHouse) => h.name.toLowerCase() === house));
+    }
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    api.get("/Houses").then(({ data }) => {
-      setHouses(data);
-    });
+    getHouses();
   }, []);
 
   useEffect(() => {
-    setActiveHouse(houses.find(({ name }) => name.toLowerCase() === house)!);
+    setActiveHouse(houses.find((h) => h.name.toLowerCase() === house));
   }, [house]);
+
+  useEffect(() => {
+    if (activeHouse && isLoading) {
+      setIsLoading(false);
+    }
+  }, [activeHouse]);
+
+  if (isLoading || !activeHouse) {
+    return (
+      <ThemedView>
+        <ThemedText>Loading...</ThemedText>
+      </ThemedView>
+    );
+  }
 
   return (
     <ScrollView>
@@ -42,17 +65,44 @@ export default function HomeScreen() {
           Welcome to Hogwarts!
         </ThemedText>
         <ThemedText>
-          Meet our four houses: Gryffindor, Hufflepuff, Ravenclaw, and
-          Slytherin. Each house has its own unique characteristics and values.
-          Which house do you belong to?
+          Meet our four houses. Each house has its own unique characteristics
+          and values. Which house do you belong to?
         </ThemedText>
+        <ThemedView style={styles.stepContainer}>
+          {houses.map((h, index) => (
+            <TouchableOpacity
+              key={h.id}
+              style={{
+                padding: 8,
+              }}
+              onPress={() =>
+                setSelectedHouse(h.name.toLowerCase() as HouseType)
+              }
+            >
+              <ThemedText
+                style={{
+                  color:
+                    h.name.toLowerCase() === house ? colors.tint : colors.text,
+                  fontSize: h.name.toLowerCase() === house ? 18 : 14,
+                  fontWeight: "bold",
+                  textShadowColor:
+                    h.name.toLowerCase() === house ? colors.text : "",
+                  textShadowOffset: { width: 1, height: 1 },
+                  textShadowRadius: 8,
+                }}
+              >
+                {h.name}
+              </ThemedText>
+            </TouchableOpacity>
+          ))}
+        </ThemedView>
         <ThemedView>
           <ThemedText style={{ fontSize: 20, fontWeight: "bold" }}>
             {activeHouse.name}
           </ThemedText>
           <Image
-            source={mapLogo[activeHouse.name as keyof typeof mapLogo]}
-            style={styles.reactLogo}
+            source={mapHouseLogo[house as HouseType]}
+            style={styles.houseLogo}
           />
           <ThemedText>
             <ThemedText style={{ fontWeight: "bold" }}>Founder:</ThemedText>{" "}
@@ -74,32 +124,12 @@ export default function HomeScreen() {
             <ThemedText style={{ fontWeight: "bold" }}>Common Room:</ThemedText>{" "}
             {activeHouse.commonRoom}
           </ThemedText>
-          <ThemedText style={{ fontWeight: "bold" }}>House Colours:</ThemedText>
-          <ThemedView
-            style={{
-              flexDirection: "row",
-              gap: 8,
-            }}
-          >
-            {activeHouse.houseColours.split(",").map((colour) => (
-              <ThemedView
-                key={colour}
-                style={{
-                  backgroundColor: colour,
-                  width: 50,
-                  height: 50,
-                  borderRadius: 25,
-                }}
-              />
-            ))}
-          </ThemedView>
           <ThemedText style={{ fontWeight: "bold" }}>House Heads:</ThemedText>
           <FlatList
             data={activeHouse.heads}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <ThemedText>
-                <ThemedText style={{ fontWeight: "bold" }}>Head:</ThemedText>{" "}
                 {item.firstName} {item.lastName}
               </ThemedText>
             )}
@@ -108,29 +138,8 @@ export default function HomeScreen() {
           <FlatList
             data={activeHouse.traits}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <ThemedText>
-                <ThemedText style={{ fontWeight: "bold" }}>Trait:</ThemedText>{" "}
-                {item.name}
-              </ThemedText>
-            )}
+            renderItem={({ item }) => <ThemedText>{item.name}</ThemedText>}
           />
-        </ThemedView>
-        <ThemedView style={styles.stepContainer}>
-          {houses.map((house, index) => (
-            <TouchableOpacity
-              key={house.id}
-              style={{
-                padding: 8,
-                borderRadius: 8,
-              }}
-              onPress={() =>
-                setSelectedHouse(house.name.toLowerCase() as HouseType)
-              }
-            >
-              <ThemedText>{house.name}</ThemedText>
-            </TouchableOpacity>
-          ))}
         </ThemedView>
       </ThemedView>
     </ScrollView>
@@ -146,12 +155,15 @@ const styles = StyleSheet.create({
   stepContainer: {
     gap: 8,
     marginBottom: 8,
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "space-around",
+    alignItems: "center",
+    padding: 8,
   },
-  reactLogo: {
+  houseLogo: {
     height: 178,
     width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
+    resizeMode: "contain",
   },
 });

@@ -3,10 +3,11 @@ import Svg, { G, Path } from "react-native-svg";
 export default function WandIcon({ color = "#000", size = 28 }) {
   return (
     <Svg
-      width='2040.000000pt'
-      height='1841.000000pt'
+      width={size}
+      height={size}
       viewBox='0 0 2040.000000 1841.000000'
       preserveAspectRatio='xMidYMid meet'
+      id="wand-icon"
     >
       <G
         transform='translate(0.000000,1841.000000) scale(0.100000,-0.100000)'

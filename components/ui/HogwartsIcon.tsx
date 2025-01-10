@@ -3,8 +3,9 @@ import Svg, { G, Path } from "react-native-svg";
 export default function Hogwarts({ color = "#000", size = 28 }) {
   return (
     <Svg
-      width='1372.000000pt'
-      height='1384.000000pt'
+      width={size}
+      height={size}
+      id="hogwarts-icon"
       viewBox='0 0 1372.000000 1384.000000'
       preserveAspectRatio='xMidYMid meet'
     >

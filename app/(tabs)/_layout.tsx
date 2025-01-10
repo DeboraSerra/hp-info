@@ -12,21 +12,26 @@ import { Colors } from "@/constants/Colors";
 import { useHouse } from "@/hooks/useHouse";
 
 export default function TabLayout() {
-  const { theme } = useHouse();
+  const { theme, colors } = useHouse();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[theme ?? "light"].tint,
+        tabBarActiveTintColor: colors.icon,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
+        tabBarItemStyle: {
+          flex: 1,
+        },
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect
             position: "absolute",
           },
-          default: {},
+          default: {
+            backgroundColor: colors.tint,
+          },
         }),
       }}
     >

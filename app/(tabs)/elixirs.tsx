@@ -1,26 +1,25 @@
-import { StyleSheet, Image, Platform } from 'react-native';
+import { Image, StyleSheet } from "react-native";
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { useHouse } from "@/hooks/useHouse";
+import mapHouseLogo from "@/utils/images";
+import { HouseType } from "@/utils/interaces";
 
 export default function TabTwoScreen() {
+  const { house } = useHouse();
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
       headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
+        <Image
+          source={mapHouseLogo[house as HouseType]}
           style={styles.headerImage}
         />
-      }>
+      }
+    >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Elixirs</ThemedText>
+        <ThemedText type='title'>Elixirs</ThemedText>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -28,13 +27,14 @@ export default function TabTwoScreen() {
 
 const styles = StyleSheet.create({
   headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+    position: "absolute",
+    width: 200,
+    height: 200,
+    bottom: -40,
+    left: -40,
   },
   titleContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
   },
 });

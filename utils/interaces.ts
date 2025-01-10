@@ -23,6 +23,9 @@ export interface IThemeProvider {
   theme: "light" | "dark";
   house: HouseType | null | undefined;
   setSelectedHouse: (house: HouseType) => void;
+  colors: IHouseTheme['light'];
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
 }
 
 export interface IHouse {
