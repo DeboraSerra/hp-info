@@ -1,19 +1,19 @@
 import {
-  FlatList,
   Image,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  View,
 } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useHouse } from "@/hooks/useHouse";
 import api from "@/utils/api";
+import mapHouseLogo from "@/utils/images";
 import { HouseType, IHouse } from "@/utils/interaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import mapHouseLogo from "@/utils/images";
 
 export default function HomeScreen() {
   const { setSelectedHouse, house, colors, isLoading, setIsLoading } =
@@ -59,12 +59,10 @@ export default function HomeScreen() {
   }
 
   return (
-    <ScrollView>
-      <ThemedView>
-        <ThemedText style={{ fontSize: 24, fontWeight: "bold" }}>
-          Welcome to Hogwarts!
-        </ThemedText>
-        <ThemedText>
+    <ScrollView contentContainerStyle={{ paddingTop: 40, paddingBottom: 68 }}>
+      <ThemedView style={{ padding: 16 }}>
+        <ThemedText style={styles.title}>Welcome to Hogwarts!</ThemedText>
+        <ThemedText style={styles.textCenter}>
           Meet our four houses. Each house has its own unique characteristics
           and values. Which house do you belong to?
         </ThemedText>
@@ -73,7 +71,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               key={h.id}
               style={{
-                padding: 8,
+                padding: 3,
               }}
               onPress={() =>
                 setSelectedHouse(h.name.toLowerCase() as HouseType)
@@ -97,49 +95,49 @@ export default function HomeScreen() {
           ))}
         </ThemedView>
         <ThemedView>
-          <ThemedText style={{ fontSize: 20, fontWeight: "bold" }}>
-            {activeHouse.name}
-          </ThemedText>
+          <ThemedText style={styles.title}>{activeHouse.name}</ThemedText>
           <Image
             source={mapHouseLogo[house as HouseType]}
             style={styles.houseLogo}
           />
-          <ThemedText>
-            <ThemedText style={{ fontWeight: "bold" }}>Founder:</ThemedText>{" "}
-            {activeHouse.founder}
-          </ThemedText>
-          <ThemedText>
-            <ThemedText style={{ fontWeight: "bold" }}>Animal:</ThemedText>{" "}
-            {activeHouse.animal}
-          </ThemedText>
-          <ThemedText>
-            <ThemedText style={{ fontWeight: "bold" }}>Element:</ThemedText>{" "}
-            {activeHouse.element}
-          </ThemedText>
-          <ThemedText>
-            <ThemedText style={{ fontWeight: "bold" }}>Ghost:</ThemedText>{" "}
-            {activeHouse.ghost}
-          </ThemedText>
-          <ThemedText>
-            <ThemedText style={{ fontWeight: "bold" }}>Common Room:</ThemedText>{" "}
-            {activeHouse.commonRoom}
-          </ThemedText>
-          <ThemedText style={{ fontWeight: "bold" }}>House Heads:</ThemedText>
-          <FlatList
-            data={activeHouse.heads}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <ThemedText>
-                {item.firstName} {item.lastName}
-              </ThemedText>
-            )}
-          />
-          <ThemedText style={{ fontWeight: "bold" }}>House Traits:</ThemedText>
-          <FlatList
-            data={activeHouse.traits}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <ThemedText>{item.name}</ThemedText>}
-          />
+          <View style={styles.content}>
+            <ThemedText style={styles.text}>
+              <ThemedText style={{ fontWeight: "bold" }}>Founder:</ThemedText>{" "}
+              {activeHouse.founder}
+            </ThemedText>
+            <ThemedText style={styles.text}>
+              <ThemedText style={{ fontWeight: "bold" }}>Animal:</ThemedText>{" "}
+              {activeHouse.animal}
+            </ThemedText>
+            <ThemedText style={styles.text}>
+              <ThemedText style={{ fontWeight: "bold" }}>Element:</ThemedText>{" "}
+              {activeHouse.element}
+            </ThemedText>
+            <ThemedText style={styles.text}>
+              <ThemedText style={{ fontWeight: "bold" }}>Ghost:</ThemedText>{" "}
+              {activeHouse.ghost}
+            </ThemedText>
+            <ThemedText style={styles.text}>
+              <ThemedText style={{ fontWeight: "bold" }}>
+                Common Room:
+              </ThemedText>{" "}
+              {activeHouse.commonRoom}
+            </ThemedText>
+            <ThemedText style={{ ...styles.text, fontWeight: "bold" }}>House Heads:</ThemedText>
+            <View>
+              {activeHouse.heads.map((item) => (
+                <ThemedText key={item.id}>
+                  {item.firstName} {item.lastName}
+                </ThemedText>
+              ))}
+            </View>
+            <ThemedText style={{ ...styles.text, fontWeight: "bold", marginTop: 12 }}>
+              House Traits:
+            </ThemedText>
+            {activeHouse.traits.map((item) => (
+              <ThemedText key={item.id}>{item.name}</ThemedText>
+            ))}
+          </View>
         </ThemedView>
       </ThemedView>
     </ScrollView>
@@ -152,18 +150,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 12,
+  },
+  textCenter: { fontSize: 16, textAlign: "center", marginBottom: 12 },
+  text: { fontSize: 16, marginBottom: 12 },
   stepContainer: {
-    gap: 8,
     marginBottom: 8,
     flexDirection: "row",
     flex: 1,
     justifyContent: "space-around",
     alignItems: "center",
-    padding: 8,
   },
   houseLogo: {
     height: 178,
     width: 290,
     resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 12,
+  },
+  content: {
+    maxWidth: 290,
+    alignSelf: "center",
   },
 });
