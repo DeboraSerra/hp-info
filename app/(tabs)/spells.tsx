@@ -72,7 +72,7 @@ export default function TabTwoScreen() {
       <ThemedText
         style={{
           ...styles.cardText,
-          color: colors.icon,
+          color: house === "hufflepuff" ? colors.background : colors.icon,
           backgroundColor: colors.tint,
           width: "auto",
           maxWidth: 500,
