@@ -117,6 +117,22 @@ export default function TabTwoScreen() {
           onChangeText={setQuery}
           style={{ ...styles.input, borderColor: colors.tint }}
         />
+      </View>
+      <View style={{ flexDirection: "row", gap: 8 }}>
+        <ThemedText
+          style={{
+            ...styles.cardText,
+            color: house === "hufflepuff" ? colors.background : colors.icon,
+            backgroundColor: colors.tint,
+            width: "auto",
+            maxWidth: 500,
+            marginHorizontal: "auto",
+            padding: 8,
+            borderRadius: 20,
+          }}
+        >
+          {displayData.length} elixirs
+        </ThemedText>
         <TouchableOpacity
           onPress={() => {
             setSelectedDifficulty("");
@@ -142,20 +158,6 @@ export default function TabTwoScreen() {
           </ThemedText>
         </TouchableOpacity>
       </View>
-      <ThemedText
-        style={{
-          ...styles.cardText,
-          color: house === "hufflepuff" ? colors.background : colors.icon,
-          backgroundColor: colors.tint,
-          width: "auto",
-          maxWidth: 500,
-          marginHorizontal: "auto",
-          padding: 8,
-          borderRadius: 20,
-        }}
-      >
-        {displayData.length} elixirs
-      </ThemedText>
       <ThemedView style={styles.stepContainer}>
         {Object.keys(difficultyColor).map((difficulty, index) => (
           <TouchableOpacity
@@ -216,37 +218,45 @@ export default function TabTwoScreen() {
             </ThemedText>
             {!!elixir.effect && (
               <ThemedText style={styles.cardText}>
-                <span style={{ fontWeight: 600 }}>Effect: </span>
+                <ThemedText style={{ fontWeight: 600 }}>Effect: </ThemedText>
                 {elixir.effect}
               </ThemedText>
             )}
             {!!elixir.sideEffects && (
               <ThemedText style={styles.cardText}>
-                <span style={{ fontWeight: 600 }}>Side Effects: </span>
+                <ThemedText style={{ fontWeight: 600 }}>
+                  Side Effects:{" "}
+                </ThemedText>
                 {elixir.sideEffects}
               </ThemedText>
             )}
             {!!elixir.characteristics && (
               <ThemedText style={styles.cardText}>
-                <span style={{ fontWeight: 600 }}>Characteristics: </span>
+                <ThemedText style={{ fontWeight: 600 }}>
+                  Characteristics:{" "}
+                </ThemedText>
                 {elixir.characteristics}
               </ThemedText>
             )}
             {!!elixir.time && (
               <ThemedText style={styles.cardText}>
-                <span style={{ fontWeight: 600 }}>Time: </span>
+                <ThemedText style={{ fontWeight: 600 }}>Time: </ThemedText>
                 {elixir.time}
               </ThemedText>
             )}
             {!!elixir.difficulty && (
               <ThemedText style={styles.cardText}>
-                <span style={{ fontWeight: 600 }}>Difficulty: </span>
+                <ThemedText style={{ fontWeight: 600 }}>
+                  Difficulty:{" "}
+                </ThemedText>
                 {elixir.difficulty}
               </ThemedText>
             )}
             {!!elixir.manufacturer && (
               <ThemedText style={styles.cardText}>
-                <span style={{ fontWeight: 600 }}>Manufacturer: </span>
+                <ThemedText style={{ fontWeight: 600 }}>
+                  Manufacturer:{" "}
+                </ThemedText>
                 {elixir.manufacturer}
               </ThemedText>
             )}

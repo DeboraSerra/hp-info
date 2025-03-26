@@ -1,4 +1,4 @@
-import { FlatList, Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 import { Collapsible } from "@/components/Collapsible";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
@@ -53,15 +53,11 @@ export default function TabTwoScreen() {
               {formatName(wizard.firstName, wizard.lastName)}
             </ThemedText>
             <Collapsible title='Elixirs: '>
-              <FlatList
-                data={wizard.elixirs}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <ThemedText style={styles.cardListItem}>
-                    {item.name}
-                  </ThemedText>
-                )}
-              />
+              {wizard.elixirs.map((elixir) => (
+                <ThemedText style={styles.cardListItem} key={elixir.id}>
+                  {elixir.name}
+                </ThemedText>
+              ))}
             </Collapsible>
           </View>
         ))}
