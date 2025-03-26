@@ -53,3 +53,14 @@ export interface IWizard {
   firstName: string;
   lastName: string;
 }
+
+export interface ISpell {
+  id: string;
+  name: string;
+  incantation: string;
+  effect: string;
+  canBeVerbal: boolean;
+  type: string;
+  light: string;
+  creator: string;
+}
