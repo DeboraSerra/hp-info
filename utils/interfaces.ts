@@ -23,7 +23,7 @@ export interface IThemeProvider {
   theme: "light" | "dark";
   house: HouseType | null | undefined;
   setSelectedHouse: (house: HouseType) => void;
-  colors: IHouseTheme['light'];
+  colors: IHouseTheme["light"];
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
 }
@@ -42,4 +42,14 @@ export interface IHouse {
     id: string;
     name: string;
   }[];
+}
+
+export interface IWizard {
+  elixirs: {
+    id: string;
+    name: string;
+  }[];
+  id: string;
+  firstName: string;
+  lastName: string;
 }

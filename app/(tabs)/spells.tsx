@@ -5,7 +5,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useHouse } from "@/hooks/useHouse";
 import mapHouseLogo from "@/utils/images";
-import { HouseType } from "@/utils/interaces";
+import { HouseType } from "@/utils/interfaces";
 
 export default function TabTwoScreen() {
   const { house } = useHouse();

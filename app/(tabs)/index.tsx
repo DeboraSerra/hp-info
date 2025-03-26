@@ -11,7 +11,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { useHouse } from "@/hooks/useHouse";
 import api from "@/utils/api";
 import mapHouseLogo from "@/utils/images";
-import { HouseType, IHouse } from "@/utils/interaces";
+import { HouseType, IHouse } from "@/utils/interfaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 
@@ -94,49 +94,55 @@ export default function HomeScreen() {
             </TouchableOpacity>
           ))}
         </ThemedView>
-        <ThemedView>
+        <ThemedView
+          style={{ maxWidth: 500, marginHorizontal: "auto", width: "100%" }}
+        >
           <ThemedText style={styles.title}>{activeHouse.name}</ThemedText>
           <Image
             source={mapHouseLogo[house as HouseType]}
             style={styles.houseLogo}
           />
-          <View style={styles.content}>
+          <View>
             <ThemedText style={styles.text}>
-              <ThemedText style={{ fontWeight: "bold" }}>Founder:</ThemedText>{" "}
+              <ThemedText style={styles.cardTitle}>Founder:</ThemedText>{" "}
               {activeHouse.founder}
             </ThemedText>
             <ThemedText style={styles.text}>
-              <ThemedText style={{ fontWeight: "bold" }}>Animal:</ThemedText>{" "}
+              <ThemedText style={styles.cardTitle}>Animal:</ThemedText>{" "}
               {activeHouse.animal}
             </ThemedText>
             <ThemedText style={styles.text}>
-              <ThemedText style={{ fontWeight: "bold" }}>Element:</ThemedText>{" "}
+              <ThemedText style={styles.cardTitle}>Element:</ThemedText>{" "}
               {activeHouse.element}
             </ThemedText>
             <ThemedText style={styles.text}>
-              <ThemedText style={{ fontWeight: "bold" }}>Ghost:</ThemedText>{" "}
+              <ThemedText style={styles.cardTitle}>Ghost:</ThemedText>{" "}
               {activeHouse.ghost}
             </ThemedText>
             <ThemedText style={styles.text}>
-              <ThemedText style={{ fontWeight: "bold" }}>
-                Common Room:
-              </ThemedText>{" "}
+              <ThemedText style={styles.cardTitle}>Common Room:</ThemedText>{" "}
               {activeHouse.commonRoom}
             </ThemedText>
-            <ThemedText style={{ ...styles.text, fontWeight: "bold" }}>House Heads:</ThemedText>
-            <View>
+            <View style={styles.card}>
+              <ThemedText style={{ ...styles.cardTitle, fontWeight: "bold" }}>
+                House Heads:
+              </ThemedText>
               {activeHouse.heads.map((item) => (
                 <ThemedText key={item.id}>
                   {item.firstName} {item.lastName}
                 </ThemedText>
               ))}
             </View>
-            <ThemedText style={{ ...styles.text, fontWeight: "bold", marginTop: 12 }}>
-              House Traits:
-            </ThemedText>
-            {activeHouse.traits.map((item) => (
-              <ThemedText key={item.id}>{item.name}</ThemedText>
-            ))}
+            <View style={styles.card}>
+              <ThemedText
+                style={{ ...styles.text, fontWeight: "bold", marginTop: 12 }}
+              >
+                House Traits:
+              </ThemedText>
+              {activeHouse.traits.map((item) => (
+                <ThemedText key={item.id}>{item.name}</ThemedText>
+              ))}
+            </View>
           </View>
         </ThemedView>
       </ThemedView>
@@ -172,8 +178,29 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 12,
   },
-  content: {
-    maxWidth: 290,
-    alignSelf: "center",
+  card: {
+    padding: 16,
+    marginVertical: 8,
+    borderRadius: 8,
+    backgroundColor: "#282b2c",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  cardText: {
+    fontSize: 16,
+  },
+  cardListItem: {
+    fontSize: 16,
+    marginLeft: 16,
   },
 });

@@ -1,5 +1,5 @@
 import { Colors, houseColors } from "@/constants/Colors";
-import { HouseType, IThemeProvider } from "@/utils/interaces";
+import { HouseType, IThemeProvider } from "@/utils/interfaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DarkTheme,
